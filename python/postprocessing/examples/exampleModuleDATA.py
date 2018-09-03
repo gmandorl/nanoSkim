@@ -53,14 +53,14 @@ class exampleProducer(Module):
             eventSum += lep.p4()
             if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and not dimuonSelection :
                 if count_mu == 1 and (lep.charge*mu1_charge)<0:
-                    mu2.SetPtEtaPhiM(lep.pt_corrected,lep.eta, lep.phi, 0.105658375)
+                    mu2.SetPtEtaPhiM(lep.pt,lep.eta, lep.phi, 0.105658375)
                     dimuonSelection = True
                 if count_mu == 0:
-                    mu1.SetPtEtaPhiM(lep.pt_corrected,lep.eta, lep.phi, 0.105658375)#105,6583745(24) MeV
+                    mu1.SetPtEtaPhiM(lep.pt,lep.eta, lep.phi, 0.105658375)#105,6583745(24) MeV
                     mu1_charge = lep.charge
                     count_mu +=1
         if not dimuonSelection : return False           
-        if max(mu1.Pt(), mu2.Pt())<28 : return False # muons are ordered in lep.pt, not in lep.pt_corrected
+        if max(mu1.Pt(), mu2.Pt())<29 : return False # muons are ordered in lep.pt, not in lep.pt_corrected
         if min(mu1.Pt(), mu2.Pt())<9  : return False # muons are ordered in lep.pt, not in lep.pt_corrected
         #print "muon pt:   ", mu1.Pt(), mu2.Pt()
         dimuon = mu1 + mu2
@@ -70,7 +70,7 @@ class exampleProducer(Module):
                 
         
         
-        #AGGIUNGERE IL SORT SUI JET
+        
         jetIdx1=-1
         jetIdx2=-1
         VBFselectedJet = array.array('f', [0 for x in range(len(jets))])     
@@ -89,13 +89,13 @@ class exampleProducer(Module):
                     if j.muonIdx2>-1 and muons[j.muonIdx2].pfRelIso04_all<0.25 : continue   
                     if count_jet ==1:
                         jet2=j.p4()
-                        jet2.SetPtEtaPhiM(j.pt_nom,jet2.Eta(), jet2.Phi(), j.mass_nom)
+                        jet2.SetPtEtaPhiM(j.pt,jet2.Eta(), jet2.Phi(), j.mass)
                         dijetSelection = True
                         VBFselectedJet[n] = 1
                         jetIdx2=n
                     if count_jet == 0:
                         jet1=j.p4()
-                        jet1.SetPtEtaPhiM(j.pt_nom,jet1.Eta(), jet1.Phi(), j.mass_nom)
+                        jet1.SetPtEtaPhiM(j.pt,jet1.Eta(), jet1.Phi(), j.mass)
                         count_jet +=1
                         VBFselectedJet[n] = 1
                         jetIdx1=n
@@ -103,7 +103,8 @@ class exampleProducer(Module):
         if not dijetSelection : return False
         #print "jet pt:   ", jet1.Pt(), jet2.Pt()
         if min(jet1.Pt(), jet2.Pt())<20  : return False
-        if max(jet1.Pt(), jet2.Pt())<30  : return False
+        if max(jet1.Pt(), jet2.Pt())<30 : return False
+
         dijetMass = 0    
         dijetMass = (jet1 + jet2).M()
         if dijetMass < 180 : return False
@@ -121,7 +122,8 @@ class exampleProducer(Module):
     
     
     
-exampleModule = lambda : exampleProducer(jetSelection= lambda j : j.pt > 20, muSelection= lambda mu : mu.pt > 9) 
+exampleModuleDATA = lambda : exampleProducer(jetSelection= lambda j : j.pt > 20, muSelection= lambda mu : mu.pt > 9) 
+
 
 
 
