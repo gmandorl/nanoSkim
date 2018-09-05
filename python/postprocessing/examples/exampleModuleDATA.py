@@ -51,7 +51,7 @@ class exampleProducer(Module):
         muonNumber = len(filter(self.muSel,muons))
         for lep in muons :
             eventSum += lep.p4()
-            if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and not dimuonSelection :
+            if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and not dimuonSelection :
                 if count_mu == 1 and (lep.charge*mu1_charge)<0:
                     mu2.SetPtEtaPhiM(lep.pt,lep.eta, lep.phi, 0.105658375)
                     dimuonSelection = True
@@ -59,7 +59,7 @@ class exampleProducer(Module):
                     mu1.SetPtEtaPhiM(lep.pt,lep.eta, lep.phi, 0.105658375)#105,6583745(24) MeV
                     mu1_charge = lep.charge
                     count_mu +=1
-        if not dimuonSelection : return False           
+        #if not dimuonSelection : return False           
         if max(mu1.Pt(), mu2.Pt())<29 : return False # muons are ordered in lep.pt, not in lep.pt_corrected
         if min(mu1.Pt(), mu2.Pt())<9  : return False # muons are ordered in lep.pt, not in lep.pt_corrected
         #print "muon pt:   ", mu1.Pt(), mu2.Pt()
@@ -122,7 +122,7 @@ class exampleProducer(Module):
     
     
     
-exampleModuleDATA = lambda : exampleProducer(jetSelection= lambda j : j.pt > 20, muSelection= lambda mu : mu.pt > 9) 
+exampleModuleDATA = lambda : exampleProducer(jetSelection= lambda j : j.pt > 20, muSelection= lambda mu : mu.pt > 9 ) 
 
 
 
