@@ -15,9 +15,9 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.common.hepmcDump import *
 
 
 
-p=PostProcessor(".",inputFiles(), "Jet_pt>20 && Muon_pt > 9", modules=[jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
 
-#p=PostProcessor(".",inputFiles(), "Jet_pt>20 && Muon_pt > 9", modules=[exampleModuleDATA()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[exampleModuleDATA()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
 
 
 

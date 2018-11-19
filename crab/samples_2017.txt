@@ -2,25 +2,31 @@
 
 ---------------DATA---------------------
 
-/SingleMuon/Run2017B-31Mar2018-v1/NANOAOD
-/SingleMuon/Run2017C-31Mar2018-v1/NANOAOD
-/SingleMuon/Run2017D-31Mar2018-v1/NANOAOD
-/SingleMuon/Run2017E-31Mar2018-v1/NANOAOD
-/SingleMuon/Run2017F-31Mar2018-v1/NANOAOD
+#/SingleMuon/Run2017B-31Mar2018-v1/NANOAOD
+#/SingleMuon/Run2017C-31Mar2018-v1/NANOAOD
+#/SingleMuon/Run2017D-31Mar2018-v1/NANOAOD
+#/SingleMuon/Run2017E-31Mar2018-v1/NANOAOD
+#/SingleMuon/Run2017F-31Mar2018-v1/NANOAOD
 
 
 ---------------WToLNu---------------------
 
 #/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PU2017_12Apr2018_94X_mc2017_realistic_v14_ext1-v2/NANOAODSIM
-#/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/arizzi-RunIIFall17MiniAODv2-NewReg_RECOVER_ealistic_v14_ext1-v2-c5f367df521a509c8f8fc6363755876c/USER
 #/WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PU2017_12Apr2018_94X_mc2017_realistic_v14-v2/NANOAODSIM
 #/WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/NANOAODSIM
 #/WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/NANOAODSIM
 #/WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/NANOAODSIM
+/WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/NANOAODSIM
 #/WJetsToLNu_HT-1200To2500_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/NANOAODSIM
 #/WJetsToLNu_HT-2500ToInf_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PU2017_12Apr2018_94X_mc2017_realistic_v14-v3/NANOAODSIM
 
 
+
+#/WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM
+#/W1JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v2/MINIAODSIM
+#/W2JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v3/MINIAODSIM
+#/W3JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v3/MINIAODSIM
+#/W4JetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAOD-94X_mc2017_realistic_v10-v1/MINIAODSIM
 
 
 ---------------DIBOSON---------------------

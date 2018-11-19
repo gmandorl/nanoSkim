@@ -60,14 +60,14 @@ class exampleProducer(Module):
                     mu1_charge = lep.charge
                     count_mu +=1
         #if not dimuonSelection : return False           
-        if max(mu1.Pt(), mu2.Pt())<29 : return False # muons are ordered in lep.pt, not in lep.pt_corrected
+        if max(mu1.Pt(), mu2.Pt())<28 : return False # muons are ordered in lep.pt, not in lep.pt_corrected
         if min(mu1.Pt(), mu2.Pt())<9  : return False # muons are ordered in lep.pt, not in lep.pt_corrected
         #print "muon pt:   ", mu1.Pt(), mu2.Pt()
         dimuon = mu1 + mu2
         dimuonMass = dimuon.M()
         if dimuon.M()<100:
-            return False
-                
+        #if dimuon.M()<70 or dimuon.M()>110 :
+            return False        
         
         
         
@@ -87,6 +87,8 @@ class exampleProducer(Module):
                 if j.jetId>0 and j.puId>0 and not dijetSelection:
                     if j.muonIdx1>-1 and muons[j.muonIdx1].pfRelIso04_all<0.25 : continue   
                     if j.muonIdx2>-1 and muons[j.muonIdx2].pfRelIso04_all<0.25 : continue   
+                    if j.electronIdx1>-1 and electrons[j.electronIdx1].pfRelIso03_all<0.25 : continue   
+                    if j.electronIdx2>-1 and electrons[j.electronIdx2].pfRelIso03_all<0.25 : continue   
                     if count_jet ==1:
                         jet2=j.p4()
                         jet2.SetPtEtaPhiM(j.pt,jet2.Eta(), jet2.Phi(), j.mass)
@@ -99,15 +101,15 @@ class exampleProducer(Module):
                         count_jet +=1
                         VBFselectedJet[n] = 1
                         jetIdx1=n
-
-        if not dijetSelection : return False
         #print "jet pt:   ", jet1.Pt(), jet2.Pt()
-        if min(jet1.Pt(), jet2.Pt())<20  : return False
-        if max(jet1.Pt(), jet2.Pt())<30 : return False
+        if not dijetSelection : return False
+        
+        if min(jet1.Pt(), jet2.Pt())<15  : return False
+        if max(jet1.Pt(), jet2.Pt())<20 : return False
 
         dijetMass = 0    
         dijetMass = (jet1 + jet2).M()
-        if dijetMass < 180 : return False
+        if dijetMass < 200 : return False
 
 
         self.out.fillBranch("EventMass",eventSum.M())
@@ -122,7 +124,7 @@ class exampleProducer(Module):
     
     
     
-exampleModuleDATA = lambda : exampleProducer(jetSelection= lambda j : j.pt > 20, muSelection= lambda mu : mu.pt > 9 ) 
+exampleModuleDATA = lambda : exampleProducer(jetSelection= lambda j : j.pt > 15, muSelection= lambda mu : mu.pt > 9 ) 
 
 
 
