@@ -2,7 +2,7 @@ import sys
 from WMCore.Configuration import Configuration
 config = Configuration()
 
-version = "97"
+version = "V103"
 
 config.section_("General")
 config.General.requestName = 'NanoPost8'

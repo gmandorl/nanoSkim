@@ -3,16 +3,15 @@
 ---------------DATA---------------------
 
 
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016B-03Feb2017_ver1-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016B-03Feb2017_ver2-v2-58562b05a7404ba8cc84fb8bf0587ad2/USER
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016C-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016D-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016E-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016F-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016G-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016H-03Feb2017_ver2-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
-/SingleMuon/arizzi-NanoDeepAndReg2016Run2016H-03Feb2017_ver3-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
-
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016B-03Feb2017_ver1-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016B-03Feb2017_ver2-v2-58562b05a7404ba8cc84fb8bf0587ad2/USER
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016C-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016D-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016E-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016F-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016G-03Feb2017-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016H-03Feb2017_ver2-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
+#/SingleMuon/arizzi-NanoDeepAndReg2016Run2016H-03Feb2017_ver3-v1-58562b05a7404ba8cc84fb8bf0587ad2/USER
 
 
 
@@ -23,6 +22,82 @@
 
 
 ---------------WToLNu---------------------
+#/WToLNu_2J_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v1/NANOAODSIM
+#/WToLNu_0J_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_backup_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+
+
+---------------DIBOSON---------------------
+
+
+#/WW_TuneCUETP8M1_13TeV-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v2/NANOAODSIM
+#/WW_TuneCUETP8M1_13TeV-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+#/WZ_TuneCUETP8M1_13TeV-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v2/NANOAODSIM
+#/WZ_TuneCUETP8M1_13TeV-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+#/ZZ_TuneCUETP8M1_13TeV-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+
+
+#/WpWpJJ_EWK_TuneCUETP8M1_13TeV-madgraph-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+
+#/WWTo2L2Nu_DoubleScattering_13TeV-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+#/WLLJJ_WToLNu_EWK_TuneCUETP8M1_13TeV_madgraph-madspin-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+
+
+---------------TT---------------------
+
+#/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+###/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/RunIISummer16NanoAODv3-PUMoriond17_backup_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+#/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+#/TTToSemilepton_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+
+#/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v2/NANOAODSIM
+#/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+
+
+
+---------------ST---------------------
+
+
+#/ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/arizzi-RunIIMoriond17-DeepAndReg_M2_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
+
+
+#/ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+#/ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M2T4/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+#/ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+#/ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+
+
+
+---------------DY---------------------
+
+#/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v1/NANOAODSIM
+#/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v1/NANOAODSIM
+
+#/DYJetsToLL_M-105To160_VBFFilter_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_VBFPostMGFilter_94X_mcRun2_asymptotic_v3_ext1-v1/NANOAODSIM
+#/DYJetsToLL_M-105To160_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v1/NANOAODSIM
+
+#/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext2-v2/NANOAODSIM
+#/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v2/NANOAODSIM
+
+
+/EWK_LLJJ_MLL-50_MJJ-120_13TeV-madgraph-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+
+---------------SIGNAL---------------------
+
+
+#/VBF_HToMuMu_M125_13TeV_powheg_pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v2/NANOAODSIM
+#/VBF_HToMuMu_M125_13TeV_powheg_pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+
+#/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v2/NANOAODSIM
+#/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+
+
+
+
+
+--------------- NANOAOD DI ANDREA ---------------------
+
+
+---------------WToLNu---------------------
 
 #/WToLNu_0J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/WToLNu_1J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_TrancheIV_v6_ext1-v3-9253a8f5ebb6abe5c0032faba5b46826/USER
@@ -30,6 +105,7 @@
 #/WToLNu_2J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/WToLNu_2J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_TrancheIV_v6_ext2-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/WToLNu_2J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_TrancheIV_v6_ext3-v5-9253a8f5ebb6abe5c0032faba5b46826/USER
+
 
 
 
@@ -58,16 +134,12 @@
 
 #/WW_TuneCUETP8M1_13TeV-pythia8/arizzi-RunIIMoriond17-DeepAndReg__2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/WW_TuneCUETP8M1_13TeV-pythia8/arizzi-RunIIMoriond17-DeepAndReg__TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
-
-
-
 #/WZ_TuneCUETP8M1_13TeV-pythia8/arizzi-RunIIMoriond17-DeepAndReg__2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/WZ_TuneCUETP8M1_13TeV-pythia8/arizzi-RunIIMoriond17-DeepAndReg__TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
-
-
-
 #/ZZ_TuneCUETP8M1_13TeV-pythia8/arizzi-RunIIMoriond17-DeepAndReg__2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/ZZ_TuneCUETP8M1_13TeV-pythia8/arizzi-RunIIMoriond17-DeepAndReg__TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
+
+
 
 
 #/WpWpJJ_EWK_TuneCUETP8M1_13TeV-madgraph-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
@@ -75,6 +147,10 @@
 #/WLLJJ_WToLNu_EWK_TuneCUETP8M1_13TeV_madgraph-madspin-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/WWTo2L2Nu_DoubleScattering_13TeV-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 
+#/WpWpJJ_EWK_TuneCUETP8M1_13TeV-madgraph-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
+
+#/WWTo2L2Nu_DoubleScattering_13TeV-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v2/NANOAODSIM
+#/WLLJJ_WToLNu_EWK_TuneCUETP8M1_13TeV_madgraph-madspin-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3-v1/NANOAODSIM
 
 ---------------TT---------------------
 
@@ -82,6 +158,13 @@
 #/TT_TuneCUETP8M2T4_13TeV-powheg-pythia8/arizzi-RunIIMoriond17-DeepAndReg__2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/TTToSemilepton_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
+
+
+#/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/arizzi-RunIIMoriond17-DeepAndReg__TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
+#/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/arizzi-RunIIMoriond17-DeepAndReg__2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
+
+
+
 
 ---------------ST---------------------
 
@@ -91,6 +174,7 @@
 #/ST_t-channel_top_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1/arizzi-RunIIMoriond17-DeepAndReg__2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/ST_t-channel_antitop_4f_inclusiveDecays_13TeV-powhegV2-madspin-pythia8_TuneCUETP8M1/arizzi-RunIIMoriond17-DeepAndReg_M2_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/ST_s-channel_4f_leptonDecays_13TeV-amcatnlo-pythia8_TuneCUETP8M1/arizzi-RunIIMoriond17-DeepAndReg_M2_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
+
 
 
 ---------------DY---------------------
@@ -103,19 +187,25 @@
 
 #/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_2016_TrancheIV_v6-v2-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/DYToLL_2J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
-
 #/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
-
 #/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 
+
+#/DYToLL_1J_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v1/NANOAODSIM
+#/DYToLL_0J_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v1/NANOAODSIM
+#/DYJetsToLL_M-105To160_VBFFilter_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16NanoAODv3-PUMoriond17_VBFPostMGFilter_94X_mcRun2_asymptotic_v3_ext1-v1/NANOAODSIM
+
+
 #/DYJetsToLL_M-105To160_VBFFilter_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/arizzi-RunIIMoriond17-DeepAndReg_Oct_2016_TrancheIV_v6-v2-9253a8f5ebb6abe5c0032faba5b46826/USER
-
-
 
 #/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/arizzi-RunIIMoriond17-DeepAndReg__TrancheIV_v6_ext1-v2-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/arizzi-RunIIMoriond17-DeepAndReg__TrancheIV_v6_ext2-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
+
+
+#/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext2-v2/NANOAODSIM
+#/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16NanoAODv3-PUMoriond17_94X_mcRun2_asymptotic_v3_ext1-v2/NANOAODSIM
 
 
 
@@ -150,10 +240,9 @@
 #/VBF_HToMuMu_M125_13TeV_powheg_pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/VBF_HToMuMu_M125_13TeV_powheg_pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 
+
 #/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_2016_TrancheIV_v6-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
 #/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8/arizzi-RunIIMoriond17-DeepAndReg_M2_TrancheIV_v6_ext1-v1-9253a8f5ebb6abe5c0032faba5b46826/USER
-
-
 
 
 --------------------------------- OLD ---------------------------------------

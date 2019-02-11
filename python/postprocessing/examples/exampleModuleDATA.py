@@ -23,6 +23,8 @@ class exampleProducer(Module):
         self.out.branch("qqMass",  "F");
         self.out.branch("jetIdx1",  "I");
         self.out.branch("jetIdx2",  "I");
+        self.out.branch("Jet_photonIdx1", "I", 1, "nJet");
+        self.out.branch("Jet_photonIdx2", "I", 1, "nJet");
         self.out.branch("jetNumber",  "I");
         self.out.branch("muonNumber",  "I");
         self.out.branch("Jet_VBFselected", "F", 1, "nJet");
@@ -33,6 +35,7 @@ class exampleProducer(Module):
         electrons = Collection(event, "Electron")
         muons = Collection(event, "Muon")
         jets = Collection(event, "Jet")
+        photons = Collection(event, "Photon")
         eventSum = ROOT.TLorentzVector()
         
         mu1_charge = 0
@@ -51,11 +54,13 @@ class exampleProducer(Module):
         muonNumber = len(filter(self.muSel,muons))
         for lep in muons :
             eventSum += lep.p4()
-            if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and not dimuonSelection :
+            #if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and not dimuonSelection :
+            if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and lep.mediumId and not dimuonSelection :
                 if count_mu == 1 and (lep.charge*mu1_charge)<0:
                     mu2.SetPtEtaPhiM(lep.pt,lep.eta, lep.phi, 0.105658375)
                     dimuonSelection = True
-                if count_mu == 0:
+                #if count_mu == 0:
+                if lep.pfRelIso04_all<0.15 and lep.tightId and count_mu == 0  :
                     mu1.SetPtEtaPhiM(lep.pt,lep.eta, lep.phi, 0.105658375)#105,6583745(24) MeV
                     mu1_charge = lep.charge
                     count_mu +=1
@@ -74,6 +79,9 @@ class exampleProducer(Module):
         jetIdx1=-1
         jetIdx2=-1
         VBFselectedJet = array.array('f', [0 for x in range(len(jets))])     
+        Jet_photonIdx1 =  array.array('i', [0 for x in range(len(jets))]) 
+        Jet_photonIdx2 =  array.array('i', [0 for x in range(len(jets))]) 
+        
         if len(filter(self.jetSel,jets)) < 2:
             return False    
         jetNumber = len(filter(self.jetSel,jets))
@@ -82,6 +90,8 @@ class exampleProducer(Module):
         for n in range(len(jets)) :
             j = jets[n]
             VBFselectedJet[n] = 0
+            Jet_photonIdx1[n] = -1
+            Jet_photonIdx2[n] = -1
             if self.jetSel(j) :
                 eventSum += j.p4()
                 if j.jetId>0 and j.puId>0 and not dijetSelection:
@@ -89,6 +99,20 @@ class exampleProducer(Module):
                     if j.muonIdx2>-1 and muons[j.muonIdx2].pfRelIso04_all<0.25 : continue   
                     if j.electronIdx1>-1 and electrons[j.electronIdx1].pfRelIso03_all<0.25 : continue   
                     if j.electronIdx2>-1 and electrons[j.electronIdx2].pfRelIso03_all<0.25 : continue   
+                    
+                    for ph in range(len(photons)) : 
+                        if n == photons[ph].jetIdx :
+                            if Jet_photonIdx1[n]==-1 :
+                                Jet_photonIdx1[n] = ph
+                            elif Jet_photonIdx2[n]==-1 :
+                                Jet_photonIdx2[n] = ph
+                    #if Jet_photonIdx1[n]!=-1 and photons[Jet_photonIdx1[n]].pt > 15 and abs(photons[Jet_photonIdx1[n]].eta) < 2.5 and photons[Jet_photonIdx1[n]].mvaID_WP90 and photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25 : continue
+                    #if Jet_photonIdx2[n]!=-1 and photons[Jet_photonIdx2[n]].pt > 15 and abs(photons[Jet_photonIdx2[n]].eta) < 2.5 and photons[Jet_photonIdx2[n]].mvaID_WP90 and photons[Jet_photonIdx2[n]].pfRelIso03_all<0.25  : continue
+                    #if j.muonIdx1>-1 and muons[j.muonIdx1].pt>10 and abs(muons[j.muonIdx1].eta)<2.4 and muons[j.muonIdx1].softId and muons[j.muonIdx1].pfRelIso04_all<0.25 : continue 
+                    #if j.muonIdx2>-1 and muons[j.muonIdx2].pt>10 and abs(muons[j.muonIdx2].eta)<2.4 and muons[j.muonIdx2].softId and muons[j.muonIdx2].pfRelIso04_all<0.25: continue 
+                    #if j.electronIdx1>-1 and electrons[j.electronIdx1].pt>10 and abs(electrons[j.electronIdx1].eta) < 2.5 and electrons[j.electronIdx1].mvaSpring16GP_WP90 and electrons[j.electronIdx1].pfRelIso03_all<0.25  : continue  
+                    #if j.electronIdx2>-1 and electrons[j.electronIdx2].pt>10 and abs(electrons[j.electronIdx2].eta) < 2.5 and electrons[j.electronIdx2].mvaSpring16GP_WP90  and electrons[j.electronIdx2].pfRelIso03_all<0.25 : continue  
+                    
                     if count_jet ==1:
                         jet2=j.p4()
                         jet2.SetPtEtaPhiM(j.pt,jet2.Eta(), jet2.Phi(), j.mass)
@@ -119,6 +143,8 @@ class exampleProducer(Module):
         self.out.fillBranch("jetIdx2",jetIdx2)
         self.out.fillBranch("jetNumber",jetNumber)
         self.out.fillBranch("muonNumber",muonNumber)
+        self.out.fillBranch("Jet_photonIdx1",Jet_photonIdx1)
+        self.out.fillBranch("Jet_photonIdx2",Jet_photonIdx2)
         self.out.fillBranch("Jet_VBFselected",VBFselectedJet)
         return True
     
