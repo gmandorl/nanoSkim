@@ -6,7 +6,7 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import *
 from PhysicsTools.NanoAODTools.postprocessing.framework.crabhelper import inputFiles,runsAndLumis
 
 from  PhysicsTools.NanoAODTools.postprocessing.examples.exampleModule import *
-#from  PhysicsTools.NanoAODTools.postprocessing.examples.exampleModuleDATA import *
+from  PhysicsTools.NanoAODTools.postprocessing.examples.exampleModuleDATA import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetUncertainties import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import *
@@ -15,9 +15,7 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.common.hepmcDump import *
 
 
 
-#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[hepmcDump(),jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puAutoWeight(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
-p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[hepmcDump(),jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
-#p=PostProcessor(".",inputFiles(), "1", modules=[jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+#p=PostProcessor(".",inputFiles(), "Jet_pt>20 && Muon_pt > 9", modules=[jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
 
 p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[exampleModuleDATA()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
 

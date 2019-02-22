@@ -54,8 +54,8 @@ class exampleProducer(Module):
         muonNumber = len(filter(self.muSel,muons))
         for lep in muons :
             eventSum += lep.p4()
-            #if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and not dimuonSelection :
-            if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and lep.mediumId and not dimuonSelection :
+            if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and not dimuonSelection :
+            #if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and lep.mediumId and not dimuonSelection :
                 if count_mu == 1 and (lep.charge*mu1_charge)<0:
                     mu2.SetPtEtaPhiM(lep.pt,lep.eta, lep.phi, 0.105658375)
                     dimuonSelection = True

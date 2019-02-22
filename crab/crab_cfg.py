@@ -2,7 +2,7 @@ import sys
 from WMCore.Configuration import Configuration
 config = Configuration()
 
-version = "V103"
+version = "109"
 
 config.section_("General")
 config.General.requestName = 'NanoPost8'
@@ -46,6 +46,7 @@ if __name__ == '__main__':
    
     
     f=open(sys.argv[1]) 
+    if sys.argv[1].startswith("samples_2018") : version = "2018_V" + version
     if sys.argv[1].startswith("samples_2017") : version = "2017_V" + version
     if sys.argv[1].startswith("samples_2016") : version = "2016_V" + version
 

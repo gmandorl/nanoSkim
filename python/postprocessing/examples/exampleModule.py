@@ -5,12 +5,14 @@ import array
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collection 
+from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Object 
 from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 
 class exampleProducer(Module):
-    def __init__(self, jetSelection, muSelection):
+    def __init__(self, jetSelection, muSelection, data):
         self.jetSel = jetSelection
         self.muSel = muSelection
+        self.data = data
         pass
     def beginJob(self):
         pass
@@ -20,6 +22,7 @@ class exampleProducer(Module):
         self.out = wrappedOutputTree
         self.out.branch("EventMass",  "F");
         self.out.branch("MuonMass",  "F");
+        self.out.branch("qqMass_max",  "F");
         self.out.branch("qqMass",  "F");
         self.out.branch("qqMass_jesTotalDown",  "F");
         self.out.branch("qqMass_jerUp",  "F");
@@ -35,16 +38,19 @@ class exampleProducer(Module):
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
     def analyze(self, event):
+        
         """process event, return True (go to next module) or False (fail, go to next event)"""
         electrons = Collection(event, "Electron")
         muons = Collection(event, "Muon")
         jets = Collection(event, "Jet")
         photons = Collection(event, "Photon")
+
         eventSum = ROOT.TLorentzVector()
         
         mu1_charge = 0
         count_mu = 0
         dimuonSelection = False
+        RaffaeleRequest = False
         mu1 = ROOT.TLorentzVector()
         mu2 = ROOT.TLorentzVector()
         dimuonMass = 0
@@ -63,28 +69,35 @@ class exampleProducer(Module):
             return False
         muonNumber = len(filter(self.muSel,muons))
         for lep in muons :
+
             eventSum += lep.p4()
-            #if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and not dimuonSelection :
-            if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and lep.dxy < 0.05 and lep.mediumId and not dimuonSelection :
+            if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and abs(lep.dxy) < 0.05 and not dimuonSelection :
+            #if lep.pfRelIso04_all<0.25 and abs(lep.pdgId)==13 and abs(lep.dz) < 0.2 and abs(lep.dxy) < 0.05 and lep.mediumId and not dimuonSelection : 
+                if (lep.pt if self.data else lep.pt_corrected)>26 and lep.tightId and lep.pfRelIso04_all<0.15 : RaffaeleRequest = True
                 if count_mu == 1 and (lep.charge*mu1_charge)<0: # and lep.mediumId 
-                    mu2.SetPtEtaPhiM(lep.pt_corrected,lep.eta, lep.phi, 0.105658375)
+                    mu2.SetPtEtaPhiM((lep.pt if self.data else lep.pt_corrected),lep.eta, lep.phi, 0.105658375)
                     dimuonSelection = True
                 #if lep.pfRelIso04_all<0.15 and lep.tightId and count_mu == 0  : #
                 #if lep.pfRelIso04_all<0.15 and count_mu == 0  : #
                 if count_mu == 0  :
-                    mu1.SetPtEtaPhiM(lep.pt_corrected,lep.eta, lep.phi, 0.105658375)#105,6583745(24) MeV
+                    mu1.SetPtEtaPhiM((lep.pt if self.data else lep.pt_corrected),lep.eta, lep.phi, 0.105658375)#105,6583745(24) MeV
                     mu1_charge = lep.charge
                     count_mu +=1
+        
         if not dimuonSelection : return False           
-        #if max(mu1.Pt(), mu2.Pt())<28 : return False # muons are ordered in lep.pt, not in lep.pt_corrected
-        #if min(mu1.Pt(), mu2.Pt())<9  : return False # muons are ordered in lep.pt, not in lep.pt_corrected
+        #if not RaffaeleRequest : return False           
+        if max(mu1.Pt(), mu2.Pt())<28 : return False # muons are ordered in lep.pt, not in lep.pt_corrected
+        if min(mu1.Pt(), mu2.Pt())<9  : return False # muons are ordered in lep.pt, not in lep.pt_corrected
+        #if min(mu1.Pt(), mu2.Pt())<20  : return False # muons are ordered in lep.pt, not in lep.pt_corrected
+    
+
+
         dimuon = mu1 + mu2
         dimuonMass = dimuon.M()
         #if dimuon.M()<70 or dimuon.M()>110 :
         if dimuon.M()<100  :
             return False
                 
-        
         
         #AGGIUNGERE IL SORT SUI JET
         jetIdx1=-1
@@ -99,51 +112,61 @@ class exampleProducer(Module):
         bjetNumber = 0
         dijetSelection  = False
         count_jet = 0
+        #print "4    ", muons[0].pt
+
         for n in range(len(jets)) :
             j = jets[n]
             VBFselectedJet[n] = 0
             Jet_photonIdx1[n] = -1
             Jet_photonIdx2[n] = -1
+
             if self.jetSel(j) :
                 eventSum += j.p4()
-                
                 if j.jetId>0 and j.puId>0 and not dijetSelection:
-                    if j.muonIdx1>-1 and muons[j.muonIdx1].pfRelIso04_all<0.25 : continue   
-                    if j.muonIdx2>-1 and muons[j.muonIdx2].pfRelIso04_all<0.25 : continue  
-                    if j.electronIdx1>-1 and electrons[j.electronIdx1].pfRelIso03_all<0.25 : continue   
-                    if j.electronIdx2>-1 and electrons[j.electronIdx2].pfRelIso03_all<0.25 : continue   
+                    if j.muonIdx1>-1 and muons[j.muonIdx1].pfRelIso04_all<0.25 and abs(muons[j.muonIdx1].dz) < 0.2 and abs(muons[j.muonIdx1].dxy) < 0.05 : continue   
+                    if j.muonIdx2>-1 and muons[j.muonIdx2].pfRelIso04_all<0.25 and abs(muons[j.muonIdx2].dz) < 0.2 and abs(muons[j.muonIdx2].dxy) < 0.05 : continue  
+                    if j.electronIdx1>-1 and electrons[j.electronIdx1].pfRelIso03_all<0.25 and abs(electrons[j.electronIdx1].dz) < 0.2 and abs(electrons[j.electronIdx1].dxy) < 0.05 : continue   
+                    if j.electronIdx2>-1 and electrons[j.electronIdx2].pfRelIso03_all<0.25 and abs(electrons[j.electronIdx2].dz) < 0.2 and abs(electrons[j.electronIdx2].dxy) < 0.05 : continue   
                     
                 #if j.jetId>0 and j.puId>0 and abs(j.eta)<4.7 and j.pt>30 : #and not dijetSelection:
-                    #for ph in range(len(photons)) : 
-                        #if n == photons[ph].jetIdx :
-                            #if Jet_photonIdx1[n]==-1 :
-                                #Jet_photonIdx1[n] = ph
-                            #elif Jet_photonIdx2[n]==-1 :
-                                #Jet_photonIdx2[n] = ph
-                    ##if j.pt_nom >= 31.0432 and j.pt_nom <= 31.0433 :
-                        ##print Jet_photonIdx1[n], " \t ", photons[Jet_photonIdx1[n]].pt, " \t ", abs(photons[Jet_photonIdx1[n]].eta), " \t ", photons[Jet_photonIdx1[n]].mvaID_WP90, " \t ", photons[Jet_photonIdx1[n]].pfRelIso03_all
-                    ##if Jet_photonIdx1[n]!=-1 and photons[Jet_photonIdx1[n]].pt > 15 and abs(photons[Jet_photonIdx1[n]].eta) < 2.5 and photons[Jet_photonIdx1[n]].mvaID_WP90 and photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25 : continue
-                    ##if j.pt_nom >= 31.0432 and j.pt_nom <= 31.0433 :
-                        ##print Jet_photonIdx1[n]!=-1, " \t ",photons[Jet_photonIdx1[n]].pt > 15, " \t ",abs(photons[Jet_photonIdx1[n]].eta) < 2.5, " \t ",photons[Jet_photonIdx1[n]].mvaID_WP90, " \t ",photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25, " \t ", Jet_photonIdx1[n]!=-1 and photons[Jet_photonIdx1[n]].pt > 15 and abs(photons[Jet_photonIdx1[n]].eta) < 2.5 and photons[Jet_photonIdx1[n]].mvaID_WP90 and photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25
+                #if j.jetId>0 and abs(j.eta)<4.7 and j.pt>30 : #and not dijetSelection:
+                if j.jetId>0 and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6) : #and not dijetSelection:
+                    for ph in range(len(photons)) : 
+                        if n == photons[ph].jetIdx :
+                            if Jet_photonIdx1[n]==-1 :
+                                Jet_photonIdx1[n] = ph
+                            elif Jet_photonIdx2[n]==-1 :
+                                Jet_photonIdx2[n] = ph
+                    #if j.pt_nom >= 31.0432 and j.pt_nom <= 31.0433 :
+                        #print Jet_photonIdx1[n], " \t ", photons[Jet_photonIdx1[n]].pt, " \t ", abs(photons[Jet_photonIdx1[n]].eta), " \t ", photons[Jet_photonIdx1[n]].mvaID_WP90, " \t ", photons[Jet_photonIdx1[n]].pfRelIso03_all
+                    #if Jet_photonIdx1[n]!=-1 and photons[Jet_photonIdx1[n]].pt > 15 and abs(photons[Jet_photonIdx1[n]].eta) < 2.5 and photons[Jet_photonIdx1[n]].mvaID_WP90 and photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25 : continue
+                    #if j.pt_nom >= 31.0432 and j.pt_nom <= 31.0433 :
+                        #print Jet_photonIdx1[n]!=-1, " \t ",photons[Jet_photonIdx1[n]].pt > 15, " \t ",abs(photons[Jet_photonIdx1[n]].eta) < 2.5, " \t ",photons[Jet_photonIdx1[n]].mvaID_WP90, " \t ",photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25, " \t ", Jet_photonIdx1[n]!=-1 and photons[Jet_photonIdx1[n]].pt > 15 and abs(photons[Jet_photonIdx1[n]].eta) < 2.5 and photons[Jet_photonIdx1[n]].mvaID_WP90 and photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25
                 
-                    ##if Jet_photonIdx2[n]!=-1 and photons[Jet_photonIdx2[n]].pt > 15 and abs(photons[Jet_photonIdx2[n]].eta) < 2.5 and photons[Jet_photonIdx2[n]].mvaID_WP90 and photons[Jet_photonIdx2[n]].pfRelIso03_all<0.25  : continue
+                    #if Jet_photonIdx2[n]!=-1 and photons[Jet_photonIdx2[n]].pt > 15 and abs(photons[Jet_photonIdx2[n]].eta) < 2.5 and photons[Jet_photonIdx2[n]].mvaID_WP90 and photons[Jet_photonIdx2[n]].pfRelIso03_all<0.25  : continue
 
                     #if j.muonIdx1>-1 and muons[j.muonIdx1].pt>10 and abs(muons[j.muonIdx1].eta)<2.4 and muons[j.muonIdx1].softId and muons[j.muonIdx1].pfRelIso04_all<0.25 : continue 
                     #if j.muonIdx2>-1 and muons[j.muonIdx2].pt>10 and abs(muons[j.muonIdx2].eta)<2.4 and muons[j.muonIdx2].softId and muons[j.muonIdx2].pfRelIso04_all<0.25: continue 
-                    #if j.electronIdx1>-1 and electrons[j.electronIdx1].pt>10 and abs(electrons[j.electronIdx1].eta) < 2.5 and electrons[j.electronIdx1].mvaSpring16GP_WP90 and electrons[j.electronIdx1].pfRelIso03_all<0.25  : continue  
-                    #if j.electronIdx2>-1 and electrons[j.electronIdx2].pt>10 and abs(electrons[j.electronIdx2].eta) < 2.5 and electrons[j.electronIdx2].mvaSpring16GP_WP90  and electrons[j.electronIdx2].pfRelIso03_all<0.25 : continue  
-                
+                    #if j.electronIdx1>-1 and electrons[j.electronIdx1].pt>10 and abs(electrons[j.electronIdx1].eta) < 2.5 and electrons[j.electronIdx1].mvaSpring16GP_WP90 and electrons[j.electronIdx1].pfRelIso03_all<0.25  and abs(electrons[j.electronIdx1].dz) < 0.2 and abs(electrons[j.electronIdx1].dxy) < 0.05 : continue  
+                    #if j.electronIdx2>-1 and electrons[j.electronIdx2].pt>10 and abs(electrons[j.electronIdx2].eta) < 2.5 and electrons[j.electronIdx2].mvaSpring16GP_WP90  and electrons[j.electronIdx2].pfRelIso03_all<0.25  and abs(electrons[j.electronIdx2].dz) < 0.2 and abs(electrons[j.electronIdx2].dxy) < 0.05 : continue
+
+ 
+                    #if Jet_photonIdx1[n]!=-1 and photons[Jet_photonIdx1[n]].pt > 15 and abs(photons[Jet_photonIdx1[n]].eta) < 2.5 and photons[Jet_photonIdx1[n]].mvaID_WP90 and photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25 : continue
+                    #if Jet_photonIdx2[n]!=-1 and photons[Jet_photonIdx2[n]].pt > 15 and abs(photons[Jet_photonIdx2[n]].eta) < 2.5 and photons[Jet_photonIdx2[n]].mvaID_WP90 and photons[Jet_photonIdx2[n]].pfRelIso03_all<0.25 : continue
                     
+
+ 
                     if count_jet ==1:
                         jet2=j.p4()
                         jet2_jesTotalDown=j.p4()
                         jet2_jerUp=j.p4()
                         jet2_jerDown=j.p4()
                         
-                        jet2.SetPtEtaPhiM(j.pt_nom,jet2.Eta(), jet2.Phi(), j.mass_nom)
-                        jet2_jesTotalDown.SetPtEtaPhiM(j.pt_jesTotalDown,jet2.Eta(), jet2.Phi(), j.mass_jesTotalDown)
-                        jet2_jerUp.SetPtEtaPhiM(j.pt_jerUp,jet2.Eta(), jet2.Phi(), j.mass_jerUp)
-                        jet2_jerDown.SetPtEtaPhiM(j.pt_jerDown,jet2.Eta(), jet2.Phi(), j.mass_jerDown)
+                        if not self.data : 
+                            jet2.SetPtEtaPhiM(j.pt_nom,jet2.Eta(), jet2.Phi(), j.mass_nom)   #--------------------------------------------------------- UNCOMMENT THIS !
+                            jet2_jesTotalDown.SetPtEtaPhiM(j.pt_jesTotalDown,jet2.Eta(), jet2.Phi(), j.mass_jesTotalDown)
+                            jet2_jerUp.SetPtEtaPhiM(j.pt_jerUp,jet2.Eta(), jet2.Phi(), j.mass_jerUp)
+                            jet2_jerDown.SetPtEtaPhiM(j.pt_jerDown,jet2.Eta(), jet2.Phi(), j.mass_jerDown)
                         
                         dijetSelection = True
                         jetIdx2=n
@@ -153,33 +176,55 @@ class exampleProducer(Module):
                         jet1_jerUp=j.p4()
                         jet1_jerDown=j.p4()
                         
-                        #jet1.SetPtEtaPhiM(j.pt_nom,jet1.Eta(), jet1.Phi(), j.mass_nom)    --------------------------------------------------------- UNCOMMENT THIS !
-                        #jet1_jesTotalDown.SetPtEtaPhiM(j.pt_jesTotalDown,jet1.Eta(), jet1.Phi(), j.mass_jesTotalDown)
-                        #jet1_jerUp.SetPtEtaPhiM(j.pt_jerUp,jet1.Eta(), jet1.Phi(), j.mass_jerUp)
-                        #jet1_jerDown.SetPtEtaPhiM(j.pt_jerDown,jet1.Eta(), jet1.Phi(), j.mass_jerDown)
-
+                        if not self.data : 
+                            jet1.SetPtEtaPhiM(j.pt_nom,jet1.Eta(), jet1.Phi(), j.mass_nom)    #--------------------------------------------------------- UNCOMMENT THIS !
+                            jet1_jesTotalDown.SetPtEtaPhiM(j.pt_jesTotalDown,jet1.Eta(), jet1.Phi(), j.mass_jesTotalDown)
+                            jet1_jerUp.SetPtEtaPhiM(j.pt_jerUp,jet1.Eta(), jet1.Phi(), j.mass_jerUp)
+                            jet1_jerDown.SetPtEtaPhiM(j.pt_jerDown,jet1.Eta(), jet1.Phi(), j.mass_jerDown)
                         jetIdx1=n
                                                
-                    if (j.pt_nom > 30) :
+                    if (j.pt > 30) :
+                    #if (j.pt_nom > 30) :
                         count_jet +=1
                         if (j.btagCSVV2 > 0.8) : bjetNumber = bjetNumber + 1
                     VBFselectedJet[n] = 1  
                         
+                
         jetNumber = count_jet
-        #if not dijetSelection : return False
+
+        if not dijetSelection : return False
+        #if min(jet1.Pt(), jet2.Pt())<30 : return False
+    
         #print "jet pt:   ", jet1.Pt(), jet2.Pt()
-        if (min(jet1.Pt(), jet2.Pt())<15) and (min(jet1_jesTotalDown.Pt(), jet2_jesTotalDown.Pt())<15) and (min(jet1_jerUp.Pt(), jet2_jerUp.Pt())<15) and (min(jet1_jerDown.Pt(), jet2_jerDown.Pt())<15) : return False
-        if (max(jet1.Pt(), jet2.Pt())<20) and (max(jet1_jesTotalDown.Pt(), jet2_jesTotalDown.Pt())<20) and (max(jet1_jerUp.Pt(), jet2_jerUp.Pt())<20) and (max(jet1_jerDown.Pt(), jet2_jerDown.Pt())<20) : return False
+        if (min(jet1.Pt(), jet2.Pt())<20) and (min(jet1_jesTotalDown.Pt(), jet2_jesTotalDown.Pt())<20) and (min(jet1_jerUp.Pt(), jet2_jerUp.Pt())<20) and (min(jet1_jerDown.Pt(), jet2_jerDown.Pt())<20) : return False
+        if (max(jet1.Pt(), jet2.Pt())<25) and (max(jet1_jesTotalDown.Pt(), jet2_jesTotalDown.Pt())<25) and (max(jet1_jerUp.Pt(), jet2_jerUp.Pt())<25) and (max(jet1_jerDown.Pt(), jet2_jerDown.Pt())<25) : return False
         dijetMass = 0    
         dijetMass = (jet1 + jet2).M()
         dijetMass_jesTotalDown = (jet1_jesTotalDown + jet2_jesTotalDown).M()
         dijetMass_jerUp = (jet1_jerUp + jet2_jerUp).M()
         dijetMass_jerDown = (jet1_jerDown + jet2_jerDown).M()
-        if (dijetMass < 180) and ((jet1_jesTotalDown + jet2_jesTotalDown).M() < 180) and ((jet1_jerUp + jet2_jerUp).M() < 180) and ((jet1_jerDown + jet2_jerDown).M() < 180) : return False
+        if (dijetMass < 250) and ((jet1_jesTotalDown + jet2_jesTotalDown).M() < 250) and ((jet1_jerUp + jet2_jerUp).M() < 250) and ((jet1_jerDown + jet2_jerDown).M() < 250) : return False
 
+
+        dijetMass_max = 0
+        for n in range(len(jets)) :
+            if VBFselectedJet[n] == 1 : 
+                for m in range(len(jets)) :
+                    if VBFselectedJet[m] == 1 : 
+                        jet_n = ROOT.TLorentzVector()
+                        jet_m = ROOT.TLorentzVector()
+                        m = (jets[n].p4()+jets[m].p4()).M()
+                        if m > dijetMass_max : dijetMass_max = m 
+
+
+
+        #print event.event, " \t", mu1.Pt(), " \t", mu1.Eta(), " \t", mu2.Pt(), " \t", mu2.Eta(), " \t", jetNumber, " \t", jet1.Pt(), " \t", jet1.Eta(), " \t", jet2.Pt(), " \t", jet2.Eta(), " \t", dijetMass, " \t", jet1.deltaR(jet2), " \t", event.met
+        
+        
 
         self.out.fillBranch("EventMass",eventSum.M())
         self.out.fillBranch("MuonMass",dimuonMass)
+        self.out.fillBranch("qqMass_max",dijetMass_max)
         self.out.fillBranch("qqMass",dijetMass)
         self.out.fillBranch("qqMass_jesTotalDown",dijetMass_jesTotalDown)
         self.out.fillBranch("qqMass_jerUp",dijetMass_jerUp)
@@ -196,9 +241,9 @@ class exampleProducer(Module):
     
     
     
-exampleModule = lambda : exampleProducer(jetSelection= lambda j : j.pt > 15, muSelection= lambda mu : mu.pt > 9) 
+exampleModule = lambda : exampleProducer(jetSelection= lambda j : j.pt > 15, muSelection= lambda mu : mu.pt > 9, data = False) 
 
-
+exampleModuleDATA = lambda : exampleProducer(jetSelection= lambda j : j.pt > 15, muSelection= lambda mu : mu.pt > 9, data = True) 
 
 
 
