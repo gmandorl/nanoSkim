@@ -248,8 +248,3 @@ exampleModuleDATA = lambda : exampleProducer(jetSelection= lambda j : j.pt > 15,
 
 
 
-
-
-
-
-
