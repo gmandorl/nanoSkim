@@ -78,6 +78,15 @@ class btagSFProducer(Module):
                         2 : "incl"   # light
                     },
                     'supported_wp' : [ "L", "M", "T", "shape_corr"]
+                },
+                '2018' : {
+                    'inputFileName' : "DeepCSV_102XSF_V1.csv",
+                    'measurement_types' : {
+                        0 : "comb",  # b
+                        1 : "comb",  # c
+                        2 : "incl"   # light
+                    },
+                    'supported_wp' : [ "L", "M", "T", "shape_corr"]
                 }
             },
             'cmva' : {
@@ -108,6 +117,7 @@ class btagSFProducer(Module):
         else:
             raise ValueError("ERROR: Algorithm '%s' not supported for era = '%s'! Please choose among { %s }." % (self.algo, self.era, supported_algos))
 
+        
         algoLabel = None
         if self.algo == "csvv2":
             algoLabel = "CSV (v2)"
@@ -290,3 +300,4 @@ class btagSFProducer(Module):
 
 btagSF2016 = lambda : btagSFProducer("2016")
 btagSF2017 = lambda : btagSFProducer("2017")
+btagSF2018 = lambda : btagSFProducer("2018", 'deepcsv')

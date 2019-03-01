@@ -122,15 +122,24 @@ class exampleProducer(Module):
 
             if self.jetSel(j) :
                 eventSum += j.p4()
-                if j.jetId>0 and j.puId>0 and not dijetSelection:
+                if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "AAA", n
+                if j.jetId>0 and j.puId>0 :#and not dijetSelection:
+                    if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "BBB", n
                     if j.muonIdx1>-1 and muons[j.muonIdx1].pfRelIso04_all<0.25 and abs(muons[j.muonIdx1].dz) < 0.2 and abs(muons[j.muonIdx1].dxy) < 0.05 : continue   
+                    if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "CCC", n
                     if j.muonIdx2>-1 and muons[j.muonIdx2].pfRelIso04_all<0.25 and abs(muons[j.muonIdx2].dz) < 0.2 and abs(muons[j.muonIdx2].dxy) < 0.05 : continue  
+                    if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "DDD", n
                     if j.electronIdx1>-1 and electrons[j.electronIdx1].pfRelIso03_all<0.25 and abs(electrons[j.electronIdx1].dz) < 0.2 and abs(electrons[j.electronIdx1].dxy) < 0.05 : continue   
+                    if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "EEE", n
                     if j.electronIdx2>-1 and electrons[j.electronIdx2].pfRelIso03_all<0.25 and abs(electrons[j.electronIdx2].dz) < 0.2 and abs(electrons[j.electronIdx2].dxy) < 0.05 : continue   
+                    if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "FFF", n
                     
+                if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "GGG", n    
                 #if j.jetId>0 and j.puId>0 and abs(j.eta)<4.7 and j.pt>30 : #and not dijetSelection:
                 #if j.jetId>0 and abs(j.eta)<4.7 and j.pt>30 : #and not dijetSelection:
-                if j.jetId>0 and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6) : #and not dijetSelection:
+                if j.jetId>0 and j.puId>0 and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6) : #and not dijetSelection:
+                #if j.jetId>0 and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6) : #and not dijetSelection:
+                    if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "HHH", n, " ", count_jet
                     for ph in range(len(photons)) : 
                         if n == photons[ph].jetIdx :
                             if Jet_photonIdx1[n]==-1 :
@@ -155,12 +164,13 @@ class exampleProducer(Module):
                     #if Jet_photonIdx2[n]!=-1 and photons[Jet_photonIdx2[n]].pt > 15 and abs(photons[Jet_photonIdx2[n]].eta) < 2.5 and photons[Jet_photonIdx2[n]].mvaID_WP90 and photons[Jet_photonIdx2[n]].pfRelIso03_all<0.25 : continue
                     
 
- 
+                    if muons[0].pt > 98.527640 and muons[0].pt < 98.527642 : print "III", n, " ", count_jet
                     if count_jet ==1:
                         jet2=j.p4()
                         jet2_jesTotalDown=j.p4()
                         jet2_jerUp=j.p4()
                         jet2_jerDown=j.p4()
+                        count_jet +=1
                         
                         if not self.data : 
                             jet2.SetPtEtaPhiM(j.pt_nom,jet2.Eta(), jet2.Phi(), j.mass_nom)   #--------------------------------------------------------- UNCOMMENT THIS !
@@ -175,6 +185,7 @@ class exampleProducer(Module):
                         jet1_jesTotalDown=j.p4()
                         jet1_jerUp=j.p4()
                         jet1_jerDown=j.p4()
+                        count_jet +=1
                         
                         if not self.data : 
                             jet1.SetPtEtaPhiM(j.pt_nom,jet1.Eta(), jet1.Phi(), j.mass_nom)    #--------------------------------------------------------- UNCOMMENT THIS !
@@ -185,7 +196,7 @@ class exampleProducer(Module):
                                                
                     if (j.pt > 30) :
                     #if (j.pt_nom > 30) :
-                        count_jet +=1
+                        #count_jet +=1
                         if (j.btagCSVV2 > 0.8) : bjetNumber = bjetNumber + 1
                     VBFselectedJet[n] = 1  
                         
