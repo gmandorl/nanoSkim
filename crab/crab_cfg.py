@@ -4,7 +4,8 @@ from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 
 config = Configuration()
 
-version = "112"
+version = "Z142"
+#version = "141"
 
 config.section_("General")
 config.General.requestName = 'NanoPost8'
@@ -20,6 +21,7 @@ config.section_("Data")
 #config.Data.inputDataset = '/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIIFall17NanoAOD-PUMoriond17_94X_mcRun2_asymptotic_v2-v1/NANOAODSIM'
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
+config.Data.allowNonValidInputDataset=True
 #config.Data.splitting = 'Automatic'
 #config.Data.splitting = 'EventAwareLumiBased'
 config.Data.unitsPerJob = 5
@@ -30,7 +32,9 @@ config.Data.publication = True
 config.Data.outputDatasetTag = 'NanoTestPost5'
 #config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions16/13TeV/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt'
 config.section_("Site")
-config.Site.storageSite = "T2_IT_Bari"
+#config.Site.storageSite = "T2_IT_Bari"
+config.Site.storageSite = "T2_IT_Legnaro"
+#config.Site.storageSite = "T2_IT_Pisa"
 
 
 

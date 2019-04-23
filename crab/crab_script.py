@@ -11,16 +11,33 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetUncertainties im
 from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.muonScaleResProducer import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.common.hepmcDump import *
+#from PhysicsTools.NanoAODTools.postprocessing.modules.common.hepmcDump import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.common.lepSFProducer_v2 import *
 
 
 
-p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[hepmcDump(),jetmetUncertainties2018(), btagSF2018(), muonScaleRes2017(), puAutoWeight(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
-#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[hepmcDump(),jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puAutoWeight(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
-#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[hepmcDump(),jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
-#p=PostProcessor(".",inputFiles(), "1", modules=[jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
 
-#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[exampleModuleDATA()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+#import os
+#release=os.environ['CMSSW_VERSION'][6:]
+#print("Using release "+release)
+#print(os.getcwd())
+#print("this is where I am")
+
+
+#import glob
+#glob.glob("../postprocessing/modules/common/*")
+#glob.glob("../postprocessing/data/leptonSF/*")
+
+
+
+p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2018(), btagSF2018(), muonScaleRes2018(), puWeight_2018(), lepSFTrig2018(), lepSFID2018(), lepSFISO2018(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(),exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puWeight_2016(), lepSFTrig2016_B(), lepSFID2016_B(), lepSFISO2016_B(), lepSFTrig2016_H(), lepSFID2016_H(), lepSFISO2016_H(), exampleModule()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+
+
+#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[muonScaleRes2018(), exampleModuleDATA()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[muonScaleRes2017(), exampleModuleDATA()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
+#p=PostProcessor(".",inputFiles(), "Jet_pt>15 && Muon_pt > 9", modules=[muonScaleRes2016(), exampleModuleDATA()], provenance=True,fwkJobReport=True,jsonInput=runsAndLumis()) 
 
 
 
