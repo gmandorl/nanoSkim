@@ -51,7 +51,7 @@ class btagSFProducer(Module):
         supported_btagSF = {
             'csvv2' : {
                 '2016' : {
-                    'inputFileName' : "btagSF_CSVv2_ichep2016.csv",
+                    'inputFileName' : "CSVv2_Moriond17_B_H.csv",
                     'measurement_types' : {
                         0 : "comb",  # b
                         1 : "comb",  # c
@@ -70,8 +70,17 @@ class btagSFProducer(Module):
                 }
             },
             'deepcsv' : {
+                '2016' : {
+                    'inputFileName' : "DeepCSV_2016LegacySF_V1.csv",
+                    'measurement_types' : {
+                        0 : "comb",  # b
+                        1 : "comb",  # c
+                        2 : "incl"   # light
+                    },
+                    'supported_wp' : [ "L", "M", "T", "shape_corr"]
+                },
                 '2017' : {
-                    'inputFileName' : "DeepCSV_94XSF_V2_B_F.csv",
+                    'inputFileName' : "DeepCSV_94XSF_V4_B_F.csv",
                     'measurement_types' : {
                         0 : "comb",  # b
                         1 : "comb",  # c
@@ -91,7 +100,7 @@ class btagSFProducer(Module):
             },
             'cmva' : {
                 '2016' : {
-                    'inputFileName' : "btagSF_cMVAv2_ichep2016.csv",
+                    'inputFileName' : "cMVAv2_Moriond17_B_H.csv",
                     'measurement_types' : {
                         0 : "ttbar", # b
                         1 : "ttbar", # c
