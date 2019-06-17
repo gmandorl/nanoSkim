@@ -75,7 +75,7 @@ class jetmetUncertaintiesProducer(Module):
             if self.era == "2016":
                 self.jesUncertaintyInputFileName = "Summer16_07Aug2017_V11_MC_UncertaintySources_" + jetType + ".txt"
             elif self.era == "2017":
-                self.jesUncertaintyInputFileName = "Fall17_17Nov2017_V32_M_UncertaintySources_" + jetType + ".txt"
+                self.jesUncertaintyInputFileName = "Fall17_17Nov2017_V32_MC_UncertaintySources_" + jetType + ".txt"
             elif self.era == "2018":
                 self.jesUncertaintyInputFileName = "Autumn18_V8_MC_UncertaintySources_" + jetType + ".txt"
             else:
@@ -452,10 +452,12 @@ jetmetUncertainties2018 = lambda : jetmetUncertaintiesProducer("2018", "Autumn18
 
 
 
-jetmetUncertainties2016AK4Puppi = lambda : jetmetUncertaintiesProducer("2016", "Summer16_23Sep2016V4_MC", [ "Total" ], jetType="AK4PFPuppi")
-jetmetUncertainties2016AK4PuppiAll = lambda : jetmetUncertaintiesProducer("2016", "Summer16_23Sep2016V4_MC",  [ "All" ], jetType="AK4PFPuppi")
-jetmetUncertainties2017AK4Puppi = lambda : jetmetUncertaintiesProducer("2017", "Fall17_17Nov2017_V6_MC", [ "Total" ], jetType="AK4PFPuppi")
-jetmetUncertainties2017AK4PuppiAll = lambda : jetmetUncertaintiesProducer("2017", "Fall17_17Nov2017_V6_MC",  [ "All" ], jetType="AK4PFPuppi")
+jetmetUncertainties2016AK4Puppi = lambda : jetmetUncertaintiesProducer("2016", "Summer16_07Aug2017_V11_MC", [ "Total" ], jetType="AK4PFPuppi")
+jetmetUncertainties2016AK4PuppiAll = lambda : jetmetUncertaintiesProducer("2016", "Summer16_07Aug2017_V11_MC",  [ "All" ], jetType="AK4PFPuppi")
+jetmetUncertainties2017AK4Puppi = lambda : jetmetUncertaintiesProducer("2017", "Fall17_17Nov2017_V32_MC", [ "Total" ], jetType="AK4PFPuppi")
+jetmetUncertainties2017AK4PuppiAll = lambda : jetmetUncertaintiesProducer("2017", "Fall17_17Nov2017_V32_MC",  [ "All" ], jetType="AK4PFPuppi")
+jetmetUncertainties2018AK4Puppi = lambda : jetmetUncertaintiesProducer("2017", "v", [ "Total" ], jetType="AK4PFPuppi")
+jetmetUncertainties2018AK4PuppiAll = lambda : jetmetUncertaintiesProducer("2017", "Autumn18_V8_MC",  [ "All" ], jetType="AK4PFPuppi")
 
 jetmetUncertainties2016AK8Puppi = lambda : jetmetUncertaintiesProducer("2016", "Summer16_23Sep2016V4_MC", [ "Total" ], jetType="AK8PFPuppi")
 jetmetUncertainties2016AK8PuppiAll = lambda : jetmetUncertaintiesProducer("2016", "Summer16_23Sep2016V4_MC",  [ "All" ], jetType="AK8PFPuppi")
