@@ -5,15 +5,19 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 from importlib import import_module
 from PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import PostProcessor
 
-from  exampleModule import *
+from  vbfhmmSkim import *
+#from  exampleModule import *
 #from  exampleModuleDATA import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jetmetUncertainties import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.jme.jecUncertainties import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.btv.btagSFProducer import *
 from PhysicsTools.NanoAODTools.postprocessing.modules.common.puWeightProducer import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.common.muonScaleResProducer import *
-from PhysicsTools.NanoAODTools.postprocessing.modules.common.hepmcDump import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.common.PrefireCorr import *
 
+from PhysicsTools.NanoAODTools.postprocessing.modules.common.muonScaleResProducer import *
+#from PhysicsTools.NanoAODTools.postprocessing.modules.common.muonScaleResProducer_old_not_Suvankar import *
+#from PhysicsTools.NanoAODTools.postprocessing.modules.common.hepmcDump import *
+from PhysicsTools.NanoAODTools.postprocessing.modules.common.lepSFProducer_v2 import *
 
 
 #p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/GluGlu_HToMuMu_M125_13TeV_powheg_pythia8_NANOAOD.root"],"Jet_pt>20 && Muon_pt > 9 && Entry$ < 10000","keep_and_drop.txt",[hepmcDump(),jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()],provenance=True)
@@ -29,11 +33,52 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.common.hepmcDump import *
 
 #p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndRegMulti/VBF_HToMuMu_M125_13TeV_powheg_pythia8/RunIIMoriond17-DeepAndReg_M2_2016_TrancheIV_v6-v1/180904_090509/0000/test_data_80X_NANO_1.root"],"Jet_pt>15 && Muon_pt > 9","keep_and_drop.txt",[hepmcDump(),jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()],provenance=True)
 #p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_NANO_1_TTJets_DiLept.root"],"Entry$ < 10000","keep_and_drop.txt",[hepmcDump(),jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()],provenance=True)
-p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_NANO_2.root"],"Entry$ < 10000",modules=[hepmcDump(),jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()],provenance=True)
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_NANO_2.root"],"Jet_pt>25 && Muon_pt > 9 && Entry$ < 10000",modules=[hepmcDump(),jetmetUncertainties2016(), btagSF2016(), muonScaleRes2016(), puAutoWeight(), exampleModule()],provenance=True)
 
 #p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_NANO_1_TTTo2L2Nu.root"],"Entry$ < 1000","keep_and_drop.txt",[hepmcDump(),jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puAutoWeight(), exampleModule()],provenance=True)
 #p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/EA2B7FA6-0032-7C47-A078-A7E3DD8003D6.root"],"Entry$ < 1000","keep_and_drop.txt",[hepmcDump(),jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puAutoWeight(), exampleModule()],provenance=True)
 #p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_ttHToMuMu_NANO2018.root"],"Entry$ < 1000","keep_and_drop.txt",[hepmcDump(),jetmetUncertainties2018(), btagSF2018(), muonScaleRes2017(), puAutoWeight(), exampleModule()],provenance=True)
+#p=PostProcessor(".",["root://xrootd-cms.infn.it//store/mc/RunIIAutumn18NanoAODv4/ZH_HToMuMu_ZToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8/NANOAODSIM/Nano14Dec2018_102X_upgrade2018_realistic_v16-v1/110000/5881DF01-6B82-DC40-82BD-A20F13961CB7.root"],"Jet_pt>25 && Muon_pt > 9",modules=[hepmcDump(),jetmetUncertainties2018(), btagSF2018(), puAutoWeight(), exampleModule()],provenance=True)
+
+
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/5881DF01-6B82-DC40-82BD-A20F13961CB7.root"],"Jet_pt>25 && Muon_pt > 9 && Entry$ < 1000",modules=[jetmetUncertainties2018(), btagSF2018(), muonScaleRes2016(), puAutoWeight2016(), exampleModule()],provenance=True)
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/5881DF01-6B82-DC40-82BD-A20F13961CB7.root"],"Jet_pt>25 && Muon_pt > 9 && Entry$ < 1000",modules=[jetmetUncertainties2018(), btagSF2018(), muonScaleRes2016(), puAutoWeight2016(), lepSFTrig2016_B(), lepSFID2016_B(), lepSFISO2016_B(), lepSFTrig2016_H(), lepSFID2016_H(), lepSFISO2016_H(), exampleModule()],provenance=True)
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/5881DF01-6B82-DC40-82BD-A20F13961CB7.root"],"Jet_pt>25 && Muon_pt > 9 && Entry$ < 1000",modules=[jetmetUncertainties2018(), btagSF2018(), muonScaleRes2016(), puAutoWeight2016(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(), exampleModule()],provenance=True)
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/5881DF01-6B82-DC40-82BD-A20F13961CB7.root"],"Jet_pt>25 && Muon_pt > 9 && Entry$ < 1000",modules=[jetmetUncertainties2018(), btagSF2018(), muonScaleRes2016(), puAutoWeight2016(), lepSFTrig2018(), lepSFID2018(), lepSFISO2018(), exampleModule()],provenance=True)
+
+
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_ttHToMuMu_NANO2018.root"],"Entry$ < 10000 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2018(), btagSF2018(), muonScaleRes2017(), puAutoWeight2017(), lepSFTrig2018(), lepSFID2018(), lepSFISO2018(), exampleModule()], provenance=True)
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_TT_NANO2017.root"],"Entry$ < 20000 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puAutoWeight2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(), exampleModule()], provenance=True)
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_TT_NANO2017.root"],"Entry$ < 1000 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puAutoWeight2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(), exampleModule()], provenance=True)
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_TT_NANO2017.root"],"Entry$ < 200 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(), exampleModule()], provenance=True)
+
+
+#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/data/Run2016H/SingleMuon/NANOAOD/Nano14Dec2018-v1/280000/8EA66449-9D0A-DA48-8D63-04836D7984AE.root"],"Jet_pt>20 && Muon_pt > 9", modules=[muonScaleRes2016(), exampleModuleDATA()],provenance=True)
+#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIFall17NanoAODv4/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/PU2017_12Apr2018_Nano14Dec2018_new_pmx_102X_mc2017_realistic_v6_ext1-v1/90000/FE00E0FC-2BA6-5944-86BD-D273444F6596.root"],"Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(), exampleModule()], provenance=True)
+#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIFall17NanoAODv4/DYJetsToLL_0J_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/PU2017_12Apr2018_Nano14Dec2018_102X_mc2017_realistic_v6-v1/20000/D90BEEB7-B07A-2948-AABE-0988F9654AFF.root"],"Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(), exampleModule()], provenance=True)
+#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIFall17NanoAODv4/DYJetsToLL_0J_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/PU2017_12Apr2018_Nano14Dec2018_102X_mc2017_realistic_v6-v1/20000/C1725238-F199-EA41-9989-975899693E5B.root"],"Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(), exampleModule()], provenance=True)
+
+#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIFall17NanoAODv4/DYJetsToLL_2J_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/PU2017_12Apr2018_Nano14Dec2018_102X_mc2017_realistic_v6-v1/280000/CC203D3D-5D88-734D-A460-B96B3787F2ED.root"],"Entry$ < 20000 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(),exampleModule()], provenance=True)
+#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIFall17NanoAODv4/DYJetsToLL_2J_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/PU2017_12Apr2018_Nano14Dec2018_102X_mc2017_realistic_v6-v1/280000/CC203D3D-5D88-734D-A460-B96B3787F2ED.root"],"Entry$ < 20000 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017AK4PuppiAll(), btagSF2017(), PrefCorr2017(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(),vbfhmmModule()], provenance=True)
+p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIFall17NanoAODv4/DYJetsToLL_0J_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/PU2017_12Apr2018_Nano14Dec2018_102X_mc2017_realistic_v6-v1/20000/C1725238-F199-EA41-9989-975899693E5B.root"],"Entry$ < 20000 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017AK4PuppiAll(), btagSF2017(), PrefCorr2016(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(),vbfhmmModule()], provenance=True)
+
+
+
+
+
+#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIAutumn18NanoAOD/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/102X_upgrade2018_realistic_v15-v1/90000/7E197AC3-49C6-D746-AA5F-3FA5AB7584AA.root"],"Entry$ < 20000 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2018(), btagSF2018(), muonScaleRes2018(), puWeight_2018(), lepSFTrig2018(), lepSFID2018(), lepSFISO2018(), exampleModule()], provenance=True)
+
+
+
+#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/mc/RunIIAutumn18NanoAOD/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/NANOAODSIM/102X_upgrade2018_realistic_v15-v1/90000/7E197AC3-49C6-D746-AA5F-3FA5AB7584AA.root"],"Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2018(), btagSF2018(), muonScaleRes2018(), puWeight_2018(), lepSFTrig2018(), lepSFID2018(), lepSFISO2018(), exampleModule()], provenance=True)
+
+
+#p=PostProcessor(".",["root://xrootd-cms.infn.it//store/data/Run2016B/SingleMuon/NANOAOD/05Feb2018_ver2-v1/00000/2055267F-3110-E811-8956-AC1F6B1AEF94.root"],"Entry$ < 1000 && Jet_pt>15 && Muon_pt > 9", modules=[muonScaleRes2018()], provenance=True)
+#p=PostProcessor(".",["root://xrootd-cms.infn.it//store/mc/RunIIFall17NanoAODv4/ZZ_TuneCP5_13TeV-pythia8/NANOAODSIM/PU2017_12Apr2018_Nano14Dec2018_102X_mc2017_realistic_v6-v1/30000/E13A1753-58AD-2E4A-9D47-4BA07BB3FD64.root"],"Entry$ < 2000 && Jet_pt>15 && Muon_pt > 9", modules=[jetmetUncertainties2017(), btagSF2017(), muonScaleRes2017(), puWeight_2017(), lepSFTrig2017(), lepSFID2017(), lepSFISO2017(), exampleModule()], provenance=True)
+
+
+
+#p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/ZH_HToMuMu_ZToAll_M125_TuneCP5_PSweights_13TeV_powheg_pythia8_NANOAODSIM_2018.root"],modules=[hepmcDump(),jetmetUncertainties2018(), btagSF2018(), muonScaleRes2017(), puAutoWeight(), exampleModule()],provenance=True)
 #p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_ttHToMuMu_NANO2018.root"],"Entry$ < 10000",modules=[hepmcDump(),jetmetUncertainties2018(), btagSF2018(), muonScaleRes2017(), puAutoWeight(), exampleModule()],provenance=True)
 
 #p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMSSW_9_4_6/test80X_NANO_1_TTTo2L2Nu.root"],"Entry$ < 10000","keep_and_drop.txt",[jetmetUncertainties2016(), muonScaleRes2016(), exampleModule()],provenance=True)
@@ -44,8 +89,6 @@ p=PostProcessor(".",["/afs/cern.ch/user/g/gimandor/private/Hmumu/nanoAODtest/CMS
 
 
 
-#FAILED DATA IN VZ96
-#p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016H-03Feb2017_ver2-v1/180516_082401/0000/test_data_80X_NANO_733.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016H-03Feb2017_ver2-v1/180516_082401/0000/test_data_80X_NANO_788.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016D-03Feb2017-v1/180516_082218/0000/test_data_80X_NANO_205.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016D-03Feb2017-v1/180516_082218/0000/test_data_80X_NANO_292.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016D-03Feb2017-v1/180516_082218/0000/test_data_80X_NANO_320.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016D-03Feb2017-v1/180516_082218/0000/test_data_80X_NANO_429.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016D-03Feb2017-v1/180516_082218/0000/test_data_80X_NANO_324.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016B-03Feb2017_ver2-v2/180516_082129/0000/test_data_80X_NANO_54.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016B-03Feb2017_ver2-v2/180516_082129/0000/test_data_80X_NANO_608.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016B-03Feb2017_ver2-v2/180516_082129/0000/test_data_80X_NANO_73.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016E-03Feb2017-v1/180516_082243/0000/test_data_80X_NANO_323.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016E-03Feb2017-v1/180516_082243/0000/test_data_80X_NANO_444.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016E-03Feb2017-v1/180516_082243/0000/test_data_80X_NANO_94.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016B-03Feb2017_ver2-v2/180516_082129/0000/test_data_80X_NANO_54.root", "root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016B-03Feb2017_ver2-v2/180516_082129/0000/test_data_80X_NANO_54.root"],"Jet_pt>20 && Muon_pt > 9","keep_and_drop.txt",[exampleModuleDATA()],provenance=True)
 
 #p=PostProcessor(".",["root://cms-xrd-global.cern.ch//store/user/arizzi/nano80XDeepAndReg/SingleMuon/NanoDeepAndReg2016Run2016G-03Feb2017-v1/180516_082336/0000/test_data_80X_NANO_734.root"],"Jet_pt>20 && Muon_pt > 9","keep_and_drop.txt",[exampleModuleDATA()],provenance=True)
 
