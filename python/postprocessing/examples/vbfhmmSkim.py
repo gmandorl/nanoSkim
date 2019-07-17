@@ -56,12 +56,14 @@ class vbfhmmProducer(Module):
         mu2 = ROOT.TLorentzVector()
         dimuonMass = 0
         
-        jet1 = ROOT.TLorentzVector()
-        jet2 = ROOT.TLorentzVector()        
-        jet1_v2 = ROOT.TLorentzVector()
-        jet2_v2 = ROOT.TLorentzVector()
-        jet1s = []
-        jet2s = []
+        
+        selectedJet = {}
+        selectedJet["criteria1"] = {}
+        selectedJet["criteria2"] = {}
+        
+
+
+
         if self.data : self.jesVariation =  ['pt_nom']
         
         jet1_jesTotalDown = ROOT.TLorentzVector()
@@ -131,12 +133,13 @@ class vbfhmmProducer(Module):
                 if j.electronIdx2>-1 and electrons[j.electronIdx2].pfRelIso03_all<0.25 and abs(electrons[j.electronIdx2].dz) < 0.2 and abs(electrons[j.electronIdx2].dxy) < 0.05 : continue   
                     
 
-                jetToSelect    = bool(j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6 or j.pt>50))
-                jetToSelect_v2 = bool(j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 )
-                if jetToSelect or jetToSelect_v2 : 
-                #if jetToSelect  : 
-                #if j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6 or j.pt>50) : #and not dijetSelection:
-                #if j.jetId>0 and j.pt>50 and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6) : #and not dijetSelection:
+                jetCriteria1    = bool(j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6 or j.pt>50))
+                jetCriteria2    = bool(j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 )
+                criteriaKeys = []
+                if jetCriteria1 or jetCriteria2 : 
+                    if jetCriteria1 : criteriaKeys.append("criteria1")
+                    if jetCriteria2 : criteriaKeys.append("criteria2")
+
                     for ph in range(len(photons)) : 
                         if n == photons[ph].jetIdx :
                             if Jet_photonIdx1[n]==-1 :
@@ -155,61 +158,25 @@ class vbfhmmProducer(Module):
                     #if Jet_photonIdx1[n]!=-1 and photons[Jet_photonIdx1[n]].pt > 15 and abs(photons[Jet_photonIdx1[n]].eta) < 2.5 and photons[Jet_photonIdx1[n]].mvaID_WP90 and photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25 : continue
                     #if Jet_photonIdx2[n]!=-1 and photons[Jet_photonIdx2[n]].pt > 15 and abs(photons[Jet_photonIdx2[n]].eta) < 2.5 and photons[Jet_photonIdx2[n]].mvaID_WP90 and photons[Jet_photonIdx2[n]].pfRelIso03_all<0.25 : continue
                     
-
-                    if count_jet ==1 and jetToSelect :
-                        jet2=j.p4()
-                        jet2.ptVariations = []
-                        for vn in range(len(self.jesVariation)) : jet2.ptVariations.append(getattr(j, self.jesVariation[vn]))
-                        for var in self.jesVariation : jet2s.append(j.p4())
-
-                        count_jet +=1
-                        
-                        if not self.data : 
-                            jet2.SetPtEtaPhiM(j.pt_nom,jet2.Eta(), jet2.Phi(), j.mass_nom)   #--------------------------------------------------------- UNCOMMENT THIS !
-                            for vn in range(len(self.jesVariation)) : jet2s[vn].SetPtEtaPhiM(getattr(j, self.jesVariation[vn]),jet2.Eta(), jet2.Phi(), j.mass_nom) 
-                        
-                        dijetSelection = True
-                        jetIdx2=n
-                        
-
-                        
-                    if count_jet == 0 and jetToSelect :
-                        jet1=j.p4()
-                        jet1.ptVariations = []
-                        for vn in range(len(self.jesVariation)) : jet1.ptVariations.append(getattr(j, self.jesVariation[vn]))
-                        for var in self.jesVariation : jet1s.append(j.p4())
-
-                        count_jet +=1
-                        
-                        if not self.data : 
-                            #print "jet 1 before:   ", jet1.Pt(), " " , j.pt_nom, " " , j.p4().Pt()
-                            jet1.SetPtEtaPhiM(j.pt_nom,jet1.Eta(), jet1.Phi(), j.mass_nom)    #--------------------------------------------------------- UNCOMMENT THIS !
-                            for vn in range(len(self.jesVariation)) : jet1s[vn].SetPtEtaPhiM(getattr(j, self.jesVariation[vn]),jet1.Eta(), jet1.Phi(), j.mass_nom) 
-
-                        jetIdx1=n
-                        
-                    #print "AA",  count_jet, jetToSelect, jetToSelect_v2, jetIdx1, jetIdx2, jet1.Pt(), jet2.Pt()
-                               
                     
-                    if count_jet_v2 ==1 and jetToSelect_v2 :
-                        jet2_v2=j.p4()
-                        jet2_v2.ptVariations = []
-                        for vn in range(len(self.jesVariation)) : jet2_v2.ptVariations.append(getattr(j, self.jesVariation[vn]))
-                        for var in self.jesVariation : jet2s.append(j.p4())
-
-                        count_jet_v2 +=1
-                        dijetSelection_v2 = True
+                    for c in criteriaKeys :
                         
-                    if count_jet_v2 == 0 and jetToSelect_v2:
-                        jet1_v2=j.p4()
-                        jet1_v2.ptVariations = []
-                        if jetToSelect_v2 :  
-                            for vn in range(len(self.jesVariation)) : jet1_v2.ptVariations.append(getattr(j, self.jesVariation[vn]))
-                        for var in self.jesVariation : jet1s.append(j.p4())
+                        if "subleading" in selectedJet[c].keys() : continue
+                    
+                        l = "leading"
+                        if "leading" in selectedJet[c].keys() and  "subleading" not in selectedJet[c].keys() : l = "subleading"
 
-                        count_jet_v2 +=1
+                        selectedJet[c][l] = ROOT.TLorentzVector()
+                        selectedJet[c][l].ptVariations = []
+                        for vn in range(len(self.jesVariation)) : selectedJet[c][l].ptVariations.append(getattr(j, self.jesVariation[vn]))
+                        if not self.data : selectedJet[c][l].SetPtEtaPhiM(j.pt_nom,j.eta, j.phi, j.mass_nom)
+                        else : selectedJet[c][l] = j.p4
 
-                        
+                        if c == "criteria1" :
+                            if "leading" in selectedJet[c].keys() and  "subleading" not in selectedJet[c].keys() : jetIdx1=n
+                            if "leading" in selectedJet[c].keys() and  "subleading" in selectedJet[c].keys() : jetIdx2=n
+
+
                         
                         
                                                
@@ -221,34 +188,39 @@ class vbfhmmProducer(Module):
                         
                 
 
-        #if not dijetSelection : return False
     
-        dijetMass = 0    
-        dijetMass = (jet1 + jet2).M()
-                
-        eventToReject=True
-        eventToReject_v2 = True
         
-        if dijetSelection :
+        
+        
+        dijetMass = 0    
+                
+        eventToReject1=True
+        eventToReject2 = True
+        
+        if "subleading" in selectedJet["criteria1"] : 
+            jet1 = selectedJet["criteria1"]["leading"] 
+            jet2 = selectedJet["criteria1"]["subleading"] 
+            dijetMass = (jet1 + jet2).M()
             for vn in range(len(self.jesVariation)) : 
-                #if max(jet1s[vn].Pt(), jet2s[vn].Pt()) > 25 and min(jet1s[vn].Pt(), jet2s[vn].Pt()) > 20 and (jet1s[vn] + jet2s[vn]).M() > 250   : 
                 if max(jet1.ptVariations[vn], jet2.ptVariations[vn]) > 25 and min(jet1.ptVariations[vn], jet2.ptVariations[vn]) > 20 :
                     jet1.SetPtEtaPhiM(jet1.ptVariations[vn],jet1.Eta(), jet1.Phi(), jet1.M())
                     jet2.SetPtEtaPhiM(jet2.ptVariations[vn],jet2.Eta(), jet2.Phi(), jet2.M())
                     if (jet1 + jet2).M()  > 250   : 
-                        eventToReject = False
+                        eventToReject1 = False
                         break
 
-        if dijetSelection_v2 :
+        if "subleading" in selectedJet["criteria2"] :
+            jet1_v2 = selectedJet["criteria2"]["leading"] 
+            jet2_v2 = selectedJet["criteria2"]["subleading"] 
             for vn in range(len(self.jesVariation)) : 
                 if max(jet1_v2.ptVariations[vn], jet2_v2.ptVariations[vn]) > 25 and min(jet1_v2.ptVariations[vn], jet2_v2.ptVariations[vn]) > 20 :
                     jet1_v2.SetPtEtaPhiM(jet1_v2.ptVariations[vn],jet1_v2.Eta(), jet1_v2.Phi(), jet1_v2.M())
                     jet2_v2.SetPtEtaPhiM(jet2_v2.ptVariations[vn],jet2_v2.Eta(), jet2_v2.Phi(), jet2_v2.M())
                     if (jet1_v2 + jet2_v2).M()  > 250   : 
-                        eventToReject_v2 = False
+                        eventToReject2 = False
                         break
         
-        if eventToReject and eventToReject_v2: return False
+        if eventToReject1 and eventToReject2: return False
         
         
 
@@ -265,8 +237,8 @@ class vbfhmmProducer(Module):
         self.out.fillBranch("qqMass",dijetMass)
         self.out.fillBranch("jetIdx1",jetIdx1)
         self.out.fillBranch("jetIdx2",jetIdx2)
-        self.out.fillBranch("selectionVBF",not eventToReject)
-        self.out.fillBranch("selectionInclusive",not eventToReject_v2)
+        self.out.fillBranch("selectionVBF",not eventToReject1)
+        self.out.fillBranch("selectionInclusive",not eventToReject2)
         self.out.fillBranch("jetNumber",jetNumber)
         self.out.fillBranch("bjetNumber",bjetNumber)
         self.out.fillBranch("muonNumber",muonNumber)
