@@ -26,18 +26,26 @@ class vbfhmmProducer(Module):
         self.out.branch("EventMass",  "F");
         self.out.branch("MuonMass",  "F");
         self.out.branch("qqMass",  "F");
-        self.out.branch("Jet_photonIdx1", "I", 1, "nJet");
-        self.out.branch("Jet_photonIdx2", "I", 1, "nJet");
-        self.out.branch("jetIdx1",  "I");
-        self.out.branch("jetIdx2",  "I");
+        #self.out.branch("Jet_photonIdx1", "I", 1, "nJet");
+        #self.out.branch("Jet_photonIdx2", "I", 1, "nJet");
+        #self.out.branch("jetIdx1",  "I");
+        #self.out.branch("jetIdx2",  "I");
         self.out.branch("selectionVBF",  "B");
         self.out.branch("selectionInclusive",  "B");
-        self.out.branch("jetNumber",  "I");
-        self.out.branch("bjetNumber",  "I");
+        #self.out.branch("jetNumber",  "I");
+        #self.out.branch("bjetNumber",  "I");
         self.out.branch("muonNumber",  "I");
-        self.out.branch("Jet_VBFselected", "F", 1, "nJet");
+        #self.out.branch("Jet_VBFselected", "F", 1, "nJet");
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
+
+    def mqq(self, jets):
+        j1 = ROOT.TLorentzVector()
+        j2 = ROOT.TLorentzVector()
+        j1.SetPtEtaPhiM(jets[0].PT,jets[0].eta, jets[0].phi, jets[0].mass_nom)
+        j2.SetPtEtaPhiM(jets[1].PT,jets[1].eta, jets[1].phi, jets[1].mass_nom)
+        return (j1+j2).M()
+        
     def analyze(self, event):
         
         """process event, return True (go to next module) or False (fail, go to next event)"""
@@ -102,149 +110,55 @@ class vbfhmmProducer(Module):
             return False
                 
         
-        #AGGIUNGERE IL SORT SUI JET
-        jetIdx1=-1
-        jetIdx2=-1
-        VBFselectedJet = array.array('f', [0 for x in range(len(jets))])     
-        Jet_photonIdx1 =  array.array('i', [0 for x in range(len(jets))]) 
-        Jet_photonIdx2 =  array.array('i', [0 for x in range(len(jets))]) 
+
+
+
+        muonfilter = lambda j : (j.muonIdx1==-1 or muons[j.muonIdx1].pfRelIso04_all>0.25 or abs(muons[j.muonIdx1].dz) > 0.2 or abs(muons[j.muonIdx1].dxy) > 0.05) and (j.muonIdx2==-1 or muons[j.muonIdx2].pfRelIso04_all>0.25 or abs(muons[j.muonIdx2].dz) > 0.2 or abs(muons[j.muonIdx2].dxy) > 0.05)
+        electronfilter = lambda j : (j.electronIdx1==-1 or electrons[j.electronIdx1].pfRelIso03_all>0.25 or abs(electrons[j.electronIdx1].dz) > 0.2 or abs(electrons[j.electronIdx1].dxy) > 0.05) and(j.electronIdx2==-1 or electrons[j.electronIdx2].pfRelIso03_all>0.25 or abs(electrons[j.electronIdx2].dz) > 0.2 or abs(electrons[j.electronIdx2].dxy) > 0.05)
         
-        jetNumber = len(filter(self.jetSel,jets))
-        if jetNumber < 2:
-            return False    
-        bjetNumber = 0
-        dijetSelection  = False
-        dijetSelection_v2  = False
-        count_jet = 0
-        count_jet_v2 = 0
-
-        for n in range(len(jets)) :
-            j = jets[n]
-            VBFselectedJet[n] = 0
-            Jet_photonIdx1[n] = -1
-            Jet_photonIdx2[n] = -1
-
-            if self.jetSel(j) :
-                eventSum += j.p4()
-                #if j.jetId>0 and j.puId>0 :#and not dijetSelection:
-                if j.muonIdx1>-1 and muons[j.muonIdx1].pfRelIso04_all<0.25 and abs(muons[j.muonIdx1].dz) < 0.2 and abs(muons[j.muonIdx1].dxy) < 0.05 : continue   
-                if j.muonIdx2>-1 and muons[j.muonIdx2].pfRelIso04_all<0.25 and abs(muons[j.muonIdx2].dz) < 0.2 and abs(muons[j.muonIdx2].dxy) < 0.05 : continue  
-                if j.electronIdx1>-1 and electrons[j.electronIdx1].pfRelIso03_all<0.25 and abs(electrons[j.electronIdx1].dz) < 0.2 and abs(electrons[j.electronIdx1].dxy) < 0.05 : continue   
-                if j.electronIdx2>-1 and electrons[j.electronIdx2].pfRelIso03_all<0.25 and abs(electrons[j.electronIdx2].dz) < 0.2 and abs(electrons[j.electronIdx2].dxy) < 0.05 : continue   
-                    
-
-                jetCriteria1    = bool(j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6 or j.pt>50))
-                jetCriteria2    = bool(j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 )
-                criteriaKeys = []
-                if jetCriteria1 or jetCriteria2 : 
-                    if jetCriteria1 : criteriaKeys.append("criteria1")
-                    if jetCriteria2 : criteriaKeys.append("criteria2")
-
-                    for ph in range(len(photons)) : 
-                        if n == photons[ph].jetIdx :
-                            if Jet_photonIdx1[n]==-1 :
-                                Jet_photonIdx1[n] = ph
-                            elif Jet_photonIdx2[n]==-1 :
-                                Jet_photonIdx2[n] = ph
-
+        
+        jetFilter1    = lambda j : (j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 and (abs(j.eta)<2.5 or j.puId>6 or j.pt>50))
+        jetFilter2    = lambda j : (j.jetId>0 and (j.pt>50 or j.puId>0) and abs(j.eta)<4.7 )
                 
-
-                    #if j.muonIdx1>-1 and muons[j.muonIdx1].pt>10 and abs(muons[j.muonIdx1].eta)<2.4 and muons[j.muonIdx1].softId and muons[j.muonIdx1].pfRelIso04_all<0.25 : continue 
-                    #if j.muonIdx2>-1 and muons[j.muonIdx2].pt>10 and abs(muons[j.muonIdx2].eta)<2.4 and muons[j.muonIdx2].softId and muons[j.muonIdx2].pfRelIso04_all<0.25: continue 
-                    #if j.electronIdx1>-1 and electrons[j.electronIdx1].pt>10 and abs(electrons[j.electronIdx1].eta) < 2.5 and electrons[j.electronIdx1].mvaSpring16GP_WP90 and electrons[j.electronIdx1].pfRelIso03_all<0.25  and abs(electrons[j.electronIdx1].dz) < 0.2 and abs(electrons[j.electronIdx1].dxy) < 0.05 : continue  
-                    #if j.electronIdx2>-1 and electrons[j.electronIdx2].pt>10 and abs(electrons[j.electronIdx2].eta) < 2.5 and electrons[j.electronIdx2].mvaSpring16GP_WP90  and electrons[j.electronIdx2].pfRelIso03_all<0.25  and abs(electrons[j.electronIdx2].dz) < 0.2 and abs(electrons[j.electronIdx2].dxy) < 0.05 : continue
-
- 
-                    #if Jet_photonIdx1[n]!=-1 and photons[Jet_photonIdx1[n]].pt > 15 and abs(photons[Jet_photonIdx1[n]].eta) < 2.5 and photons[Jet_photonIdx1[n]].mvaID_WP90 and photons[Jet_photonIdx1[n]].pfRelIso03_all<0.25 : continue
-                    #if Jet_photonIdx2[n]!=-1 and photons[Jet_photonIdx2[n]].pt > 15 and abs(photons[Jet_photonIdx2[n]].eta) < 2.5 and photons[Jet_photonIdx2[n]].mvaID_WP90 and photons[Jet_photonIdx2[n]].pfRelIso03_all<0.25 : continue
-                    
-                    
-                    for c in criteriaKeys :
-                        
-                        if "subleading" in selectedJet[c].keys() : continue
-                    
-                        l = "leading"
-                        if "leading" in selectedJet[c].keys() and  "subleading" not in selectedJet[c].keys() : l = "subleading"
-
-                        selectedJet[c][l] = ROOT.TLorentzVector()
-                        selectedJet[c][l].ptVariations = []
-                        for vn in range(len(self.jesVariation)) : selectedJet[c][l].ptVariations.append(getattr(j, self.jesVariation[vn]))
-                        if not self.data : selectedJet[c][l].SetPtEtaPhiM(j.pt_nom,j.eta, j.phi, j.mass_nom)
-                        else : selectedJet[c][l] = j.p4
-
-                        if c == "criteria1" :
-                            if "leading" in selectedJet[c].keys() and  "subleading" not in selectedJet[c].keys() : jetIdx1=n
-                            if "leading" in selectedJet[c].keys() and  "subleading" in selectedJet[c].keys() : jetIdx2=n
-
-
-                        
-                        
-                                               
-                    if (j.pt > 30) :
-                    #if (j.pt_nom > 30) :
-                        #count_jet +=1
-                        if (j.btagCSVV2 > 0.8) : bjetNumber = bjetNumber + 1
-                    VBFselectedJet[n] = 1  
-                        
                 
+        jetsNolep = [j for j in jets if muonfilter(j) and electronfilter(j)]
+        if len(jetsNolep) < 2:
+            return False
+        passAtLeastOne_Criteria1=False
+        passAtLeastOne_Criteria2=False
+        for vn in self.jesVariation:
+            for j in jetsNolep:
+                j.PT=getattr(j, vn)
+            sortedJets=sorted(jetsNolep,key=lambda j : j.PT, reverse=True)
+            jetsCriteria1=[j for j in sortedJets if jetFilter1(j)]
+            jetsCriteria2=[j for j in sortedJets if jetFilter2(j)]
+            if ( len(jetsCriteria1)>=2 and jetsCriteria1[0].PT > 25 and jetsCriteria1[1].PT > 20 and self.mqq(jetsCriteria1) > 250 ) : passAtLeastOne_Criteria1=True
+            if ( len(jetsCriteria2)>=2 and jetsCriteria2[0].PT > 30 and jetsCriteria2[1].PT > 30 and self.mqq(jetsCriteria2) > 250 ) : passAtLeastOne_Criteria2=True
+            #if passAtLeastOne_Criteria1 or passAtLeastOne_Criteria2 : break
 
-    
+
+
         
         
         
         dijetMass = 0    
-                
-        eventToReject1=True
-        eventToReject2 = True
-        
-        if "subleading" in selectedJet["criteria1"] : 
-            jet1 = selectedJet["criteria1"]["leading"] 
-            jet2 = selectedJet["criteria1"]["subleading"] 
-            dijetMass = (jet1 + jet2).M()
-            for vn in range(len(self.jesVariation)) : 
-                if max(jet1.ptVariations[vn], jet2.ptVariations[vn]) > 25 and min(jet1.ptVariations[vn], jet2.ptVariations[vn]) > 20 :
-                    jet1.SetPtEtaPhiM(jet1.ptVariations[vn],jet1.Eta(), jet1.Phi(), jet1.M())
-                    jet2.SetPtEtaPhiM(jet2.ptVariations[vn],jet2.Eta(), jet2.Phi(), jet2.M())
-                    if (jet1 + jet2).M()  > 250   : 
-                        eventToReject1 = False
-                        break
+ 
+        if not passAtLeastOne_Criteria1 and not passAtLeastOne_Criteria2 : return False
 
-        if "subleading" in selectedJet["criteria2"] :
-            jet1_v2 = selectedJet["criteria2"]["leading"] 
-            jet2_v2 = selectedJet["criteria2"]["subleading"] 
-            for vn in range(len(self.jesVariation)) : 
-                if max(jet1_v2.ptVariations[vn], jet2_v2.ptVariations[vn]) > 25 and min(jet1_v2.ptVariations[vn], jet2_v2.ptVariations[vn]) > 20 :
-                    jet1_v2.SetPtEtaPhiM(jet1_v2.ptVariations[vn],jet1_v2.Eta(), jet1_v2.Phi(), jet1_v2.M())
-                    jet2_v2.SetPtEtaPhiM(jet2_v2.ptVariations[vn],jet2_v2.Eta(), jet2_v2.Phi(), jet2_v2.M())
-                    if (jet1_v2 + jet2_v2).M()  > 250   : 
-                        eventToReject2 = False
-                        break
-        
-        if eventToReject1 and eventToReject2: return False
-        
-        
-
-
-
-
-
-
-        
-        
 
         self.out.fillBranch("EventMass",eventSum.M())
         self.out.fillBranch("MuonMass",dimuonMass)
         self.out.fillBranch("qqMass",dijetMass)
-        self.out.fillBranch("jetIdx1",jetIdx1)
-        self.out.fillBranch("jetIdx2",jetIdx2)
-        self.out.fillBranch("selectionVBF",not eventToReject1)
-        self.out.fillBranch("selectionInclusive",not eventToReject2)
-        self.out.fillBranch("jetNumber",jetNumber)
-        self.out.fillBranch("bjetNumber",bjetNumber)
+        #self.out.fillBranch("jetIdx1",jetIdx1)
+        #self.out.fillBranch("jetIdx2",jetIdx2)
+        self.out.fillBranch("selectionVBF",passAtLeastOne_Criteria1)
+        self.out.fillBranch("selectionInclusive",passAtLeastOne_Criteria2)
+        #self.out.fillBranch("jetNumber",jetNumber)
+        #self.out.fillBranch("bjetNumber",bjetNumber)
         self.out.fillBranch("muonNumber",muonNumber)
-        self.out.fillBranch("Jet_photonIdx1",Jet_photonIdx1)
-        self.out.fillBranch("Jet_photonIdx2",Jet_photonIdx2)
-        self.out.fillBranch("Jet_VBFselected",VBFselectedJet)
+        #self.out.fillBranch("Jet_photonIdx1",Jet_photonIdx1)
+        #self.out.fillBranch("Jet_photonIdx2",Jet_photonIdx2)
+        #self.out.fillBranch("Jet_VBFselected",VBFselectedJet)
         return True
     
     
